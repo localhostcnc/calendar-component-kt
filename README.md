@@ -18,6 +18,12 @@
 ## Usage
 
 > Some usage instructions
+  > npm install
+  > replace config_example.js file with config.js
+  > open mySQL in local environment and CREATE DATABASE calendarcnc;
+  > npm run build
+  > npm run start
+  > npm run seed
 
 ## Requirements
 
