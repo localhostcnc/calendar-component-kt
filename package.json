@@ -38,10 +38,10 @@
     "enzyme-adapter-react-16": "^1.13.1",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "jest": "^24.8.0",
+    "mocha": "^6.1.4",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "./test/jest.config.js"
   }
 }
