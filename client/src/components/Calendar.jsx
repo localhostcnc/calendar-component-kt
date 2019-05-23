@@ -154,9 +154,9 @@ const Wrapper = styled.section`
 
 const Wrapper2 = styled.section`
   font-style: bold;
-  padding-left: 225px;
+  padding-left: 300px;
   width: 22%;
-  margin: 5em;
+  margin: 0;
   border-spacing: 0;
   border-collapse: collapse;
 `;
