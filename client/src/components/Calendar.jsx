@@ -35,32 +35,32 @@ class Calendar extends React.Component {
   }
 
   firstDayOfMonth(leftOrRight) {
+    //returns the first day of the month that is passed in as argument
     let firstDay = moment(leftOrRight).startOf('month').format('d');
     return firstDay;
   }
 
-  render() {
-    const eachDayOfWeek = moment.weekdaysShort().map(day => (
+  weekDayFormatter() {
+    return moment.weekdaysShort().map(day => (
       <DayOfMonth key={day}>
         {day.slice(0, -1)}
       </DayOfMonth>
     ));
+  }
+  
 
+  leftMonthFormatter() {
     let leftFiller = [];
+    let rowsOfDaysLeft = [];
+    let daysPerEachWeekLeft = [];
+    let daysInLeftMonth = [];
+
     for (let i = 0; i < this.firstDayOfMonth(this.state.leftMonth); i += 1) {
       leftFiller.push(
         <CalendarDay style={{ border: 'none' }}></CalendarDay>
       );
     }
 
-    let rightFiller = [];
-    for (let i = 0; i < this.firstDayOfMonth(this.state.rightMonth); i += 1) {
-      rightFiller.push(
-        <CalendarDay style={{ border: 'none' }}></CalendarDay>
-      );
-    }
-
-    let daysInLeftMonth = [];
     for (let d = 1; d <= this.state.leftMonth.daysInMonth(); d += 1) {
       daysInLeftMonth.push(
         <CalendarDay style={{ border: 'solid', borderWidth: 'thin', borderColor: 'grey' }} key={d}>
@@ -69,7 +69,37 @@ class Calendar extends React.Component {
       );
     }
 
+    let totalCalendarDays = [...leftFiller, ...daysInLeftMonth];
+    
+    totalCalendarDays.forEach((row, i) => {
+      if (i % 7 !== 0) {
+        daysPerEachWeekLeft.push(row);
+      } else {
+        rowsOfDaysLeft.push(daysPerEachWeekLeft);
+        daysPerEachWeekLeft = [];
+        daysPerEachWeekLeft.push(row);
+      }
+      if (i === totalCalendarDays.length - 1) {
+        rowsOfDaysLeft.push(daysPerEachWeekLeft);
+      }
+    });
+    
+    return rowsOfDaysLeft.map(d => <tr>{d}</tr>);
+  }
+
+  rightMonthFormatter() {
+    let rightFiller = [];
     let daysInRightMonth = [];
+    let rowsOfDaysRight = [];
+    let daysPerEachWeekRight = [];
+
+    for (let i = 0; i < this.firstDayOfMonth(this.state.rightMonth); i += 1) {
+
+      rightFiller.push(
+        <CalendarDay style={{ border: 'none' }}></CalendarDay>
+      );
+    }
+
     for (let d = 1; d <= this.state.rightMonth.daysInMonth(); d += 1) {
       daysInRightMonth.push(
         <CalendarDay style={{ border: 'solid', borderWidth: 'thin', borderColor: 'grey' }} key={d}>
@@ -78,27 +108,9 @@ class Calendar extends React.Component {
       );
     }
 
-    let totalLeftCalendar = [...leftFiller, ...daysInLeftMonth];
-    let totalRightCalendar = [...rightFiller, ...daysInRightMonth];
-    let rowsOfDaysLeft = [];
-    let rowsOfDaysRight = [];
-    let daysPerEachWeekLeft = [];
-    let daysPerEachWeekRight = [];
-
-    totalLeftCalendar.forEach((row, i) => {
-      if (i % 7 !== 0) {
-        daysPerEachWeekLeft.push(row);
-      } else {
-        rowsOfDaysLeft.push(daysPerEachWeekLeft);
-        daysPerEachWeekLeft = [];
-        daysPerEachWeekLeft.push(row);
-      }
-      if (i === totalLeftCalendar.length - 1) {
-        rowsOfDaysLeft.push(daysPerEachWeekLeft);
-      }
-    });
-
-    totalRightCalendar.forEach((row, i) => {
+    let totalCalendarDays = [...rightFiller, ...daysInRightMonth];
+  
+    totalCalendarDays.forEach((row, i) => {
       if (i % 7 !== 0) {
         daysPerEachWeekRight.push(row);
       } else {
@@ -106,15 +118,14 @@ class Calendar extends React.Component {
         daysPerEachWeekRight = [];
         daysPerEachWeekRight.push(row);
       }
-      if (i === totalRightCalendar.length - 1) {
+      if (i === totalCalendarDays.length - 1) {
         rowsOfDaysRight.push(daysPerEachWeekRight);
       }
     });
+    return rowsOfDaysRight.map(d => <tr>{d}</tr>);
+  }
 
-    let daysinLeftmonth = rowsOfDaysLeft.map(d => <tr>{d}</tr>);
-    let daysinRightmonth = rowsOfDaysRight.map(d => <tr>{d}</tr>);
-
-
+  render() {
     return (
       <div>
         <Wrapper>
@@ -122,10 +133,10 @@ class Calendar extends React.Component {
             {this.state.leftMonth.format('MMMM YYYY')}
           </CalendarTitle>
           <Weekday>
-            {eachDayOfWeek}
+            {this.weekDayFormatter()}
           </Weekday>
           <CalendarBody>
-            {daysinLeftmonth}
+            {this.leftMonthFormatter()}
           </CalendarBody>
         </Wrapper>
         <Wrapper2>
@@ -133,10 +144,10 @@ class Calendar extends React.Component {
             {this.state.rightMonth.format('MMMM YYYY')}
           </CalendarTitle>
           <Weekday>
-            {eachDayOfWeek}
+            {this.weekDayFormatter()}
           </Weekday>
           <CalendarBody>
-            {daysinRightmonth}
+            {this.rightMonthFormatter()}
           </CalendarBody>
         </Wrapper2>
       </div>
@@ -162,7 +173,7 @@ const Wrapper2 = styled.section`
 `;
 
 const Weekday = styled.section`
-  padding: 20px 2;
+  padding: 2px;
   width: 100%;
 `;
 
