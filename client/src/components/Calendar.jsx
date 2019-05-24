@@ -32,12 +32,7 @@ class Calendar extends React.Component {
         this.setState({
           listing: listingData,
           bookings: bookingData
-        }, 
-        () => {
-          console.log('listing STATE: ', this.state.listing);
-          console.log('bookings STATE', this.state.bookings);
-        }
-        );
+        });
       }
     });
   }
@@ -46,27 +41,39 @@ class Calendar extends React.Component {
     let dayClicked = Number(e.target.innerText);
     let formattedDate = this.state.leftMonth.startOf('month').add(dayClicked - 1, 'days');
     let latestCheckoutDate;
+    let checkinDay;
+    let checkoutDay;
+    let nightsBooked;
 
-    for (let i = 0; i < this.state.bookings.length; i += 1) {
-      let blockedDate = this.state.bookings[i].checkin;
-      if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
-        latestCheckoutDate = moment(blockedDate);
-        break;
+    
+    if (!this.state.latestCheckoutDate) {
+      //when checkin date is selected search through bookings to determine latest possible checkout date
+      for (let i = 0; i < this.state.bookings.length; i += 1) {
+        let blockedDate = this.state.bookings[i].checkin;
+        if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
+          latestCheckoutDate = moment(blockedDate);
+          break;
+        }
       }
-    }
+      this.setState({
+        selectedDay: dayClicked,
+        dateSelected: formattedDate,
+        latestCheckoutDate: latestCheckoutDate
+      });
+    } else if (!(formattedDate > this.state.latestCheckoutDate)) {
+      //when checkout date is selected, determine number of nights for booking
+      checkoutDay = Number(formattedDate.format('D'));
+      checkinDay = this.state.selectedDay;
+      nightsBooked = checkoutDay - checkinDay;
 
-    this.setState({
-      selectedDay: dayClicked,
-      dateSelected: formattedDate,
-      latestCheckoutDate: latestCheckoutDate
-    },
-    () => {
-      console.log('SELECTED DAY in-state: ', this.state.selectedDay);
-      console.log('DATE OBJECT in-state: ', this.state.dateSelected);
-      console.log('latestCheckoutDate in-state: ', this.state.latestCheckoutDate.format('MMMM DD YYYY'));
+      this.setState({
+        currentCheckoutDate: formattedDate,
+        nightsBooked: nightsBooked,
+        checkoutDay: checkoutDay
+      });
     }
-    );
   }
+
 
   previousMonth() {
     let left = moment(this.state.leftMonth).subtract(1, 'months');
