@@ -16,6 +16,21 @@ class Calendar extends React.Component {
     };
   }
 
+  onDayClick(e) {
+    let dayClicked = Number(e.target.innerText);
+    let formattedDate = this.state.leftMonth.startOf('month').add(dayClicked - 1, 'days');
+    this.setState({
+      selectedDay: dayClicked,
+      dateSelected: formattedDate
+    },
+    () => {
+      console.log('SELECTED DAY: ', this.state.selectedDay);
+      console.log('DATE OBJECT: ', this.state.dateSelected);
+      console.log('PROPS: ', this.props);
+    }
+    );
+  }
+
   previousMonth() {
     let left = moment(this.state.leftMonth).subtract(1, 'months');
     let right = moment(this.state.rightMonth).subtract(1, 'months');
@@ -83,8 +98,8 @@ class Calendar extends React.Component {
         rowsOfDaysLeft.push(daysPerEachWeekLeft);
       }
     });
-    
-    return rowsOfDaysLeft.map(d => <tr>{d}</tr>);
+
+    return rowsOfDaysLeft.map(d => <tr onClick={e => { this.onDayClick(e); }}>{d}</tr>);
   }
 
   rightMonthFormatter() {
