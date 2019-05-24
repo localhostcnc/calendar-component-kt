@@ -14,7 +14,6 @@ class Calendar extends React.Component {
       rightDays: null,
       dateSelected: null
     };
-    console.log('Calendar PROPS: ', this.props);
   }
 
   componentDidMount() {
@@ -46,14 +45,25 @@ class Calendar extends React.Component {
   onDayClick(e) {
     let dayClicked = Number(e.target.innerText);
     let formattedDate = this.state.leftMonth.startOf('month').add(dayClicked - 1, 'days');
+    let latestCheckoutDate;
+
+    for (let i = 0; i < this.state.bookings.length; i += 1) {
+      let blockedDate = this.state.bookings[i].checkin;
+      if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
+        latestCheckoutDate = moment(blockedDate);
+        break;
+      }
+    }
+
     this.setState({
       selectedDay: dayClicked,
-      dateSelected: formattedDate
+      dateSelected: formattedDate,
+      latestCheckoutDate: latestCheckoutDate
     },
     () => {
-      console.log('SELECTED DAY: ', this.state.selectedDay);
-      console.log('DATE OBJECT: ', this.state.dateSelected);
-      console.log('PROPS: ', this.props);
+      console.log('SELECTED DAY in-state: ', this.state.selectedDay);
+      console.log('DATE OBJECT in-state: ', this.state.dateSelected);
+      console.log('latestCheckoutDate in-state: ', this.state.latestCheckoutDate.format('MMMM DD YYYY'));
     }
     );
   }
