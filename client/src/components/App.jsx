@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+// import moment from 'moment';
+import Calendar from './Calendar.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -43,7 +45,18 @@ class App extends React.Component {
         <h1>
           Rendering App Component!
         </h1>
-      </div>
+        <Calendar />
+        {/* <section>
+          <div>
+            <h2>
+            Availability
+            </h2> 
+          </div>
+          <div style="width: 632px;">
+          </div>
+          <div></div>
+        </section> */}
+      </div> 
     );
   }
 }
