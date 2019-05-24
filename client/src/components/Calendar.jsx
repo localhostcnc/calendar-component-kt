@@ -14,6 +14,33 @@ class Calendar extends React.Component {
       rightDays: null,
       dateSelected: null
     };
+    console.log('Calendar PROPS: ', this.props);
+  }
+
+  componentDidMount() {
+    this.props.getCalendarData((err, responseData) => {
+      if (err) {
+        console.log('Response Error: ', err);
+      } else {
+        var listingData = responseData.data.listing;
+        var bookingData = responseData.data.bookings;
+
+        //sort booking data by date in ascending order 
+        bookingData.sort(function(a, b) {
+          return new Date(a.checkin) - new Date(b.checkin);
+        });
+
+        this.setState({
+          listing: listingData,
+          bookings: bookingData
+        }, 
+        () => {
+          console.log('listing STATE: ', this.state.listing);
+          console.log('bookings STATE', this.state.bookings);
+        }
+        );
+      }
+    });
   }
 
   onDayClick(e) {
