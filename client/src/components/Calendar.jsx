@@ -16,6 +16,65 @@ class Calendar extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getCalendarData((err, responseData) => {
+      if (err) {
+        console.log('Response Error: ', err);
+      } else {
+        var listingData = responseData.data.listing;
+        var bookingData = responseData.data.bookings;
+
+        //sort booking data by date in ascending order 
+        bookingData.sort(function(a, b) {
+          return new Date(a.checkin) - new Date(b.checkin);
+        });
+
+        this.setState({
+          listing: listingData,
+          bookings: bookingData
+        });
+      }
+    });
+  }
+
+  onDayClick(e) {
+    let dayClicked = Number(e.target.innerText);
+    let formattedDate = this.state.leftMonth.startOf('month').add(dayClicked - 1, 'days');
+    let latestCheckoutDate;
+    let checkinDay;
+    let checkoutDay;
+    let nightsBooked;
+
+    
+    if (!this.state.latestCheckoutDate) {
+      //when checkin date is selected search through bookings to determine latest possible checkout date
+      for (let i = 0; i < this.state.bookings.length; i += 1) {
+        let blockedDate = this.state.bookings[i].checkin;
+        if (new Date(blockedDate) > new Date(formattedDate.format('MMMM DD YYYY'))) {
+          latestCheckoutDate = moment(blockedDate);
+          break;
+        }
+      }
+      this.setState({
+        selectedDay: dayClicked,
+        dateSelected: formattedDate,
+        latestCheckoutDate: latestCheckoutDate
+      });
+    } else if (!(formattedDate > this.state.latestCheckoutDate)) {
+      //when checkout date is selected, determine number of nights for booking
+      checkoutDay = Number(formattedDate.format('D'));
+      checkinDay = this.state.selectedDay;
+      nightsBooked = checkoutDay - checkinDay;
+
+      this.setState({
+        currentCheckoutDate: formattedDate,
+        nightsBooked: nightsBooked,
+        checkoutDay: checkoutDay
+      });
+    }
+  }
+
+
   previousMonth() {
     let left = moment(this.state.leftMonth).subtract(1, 'months');
     let right = moment(this.state.rightMonth).subtract(1, 'months');
@@ -83,8 +142,8 @@ class Calendar extends React.Component {
         rowsOfDaysLeft.push(daysPerEachWeekLeft);
       }
     });
-    
-    return rowsOfDaysLeft.map(d => <tr>{d}</tr>);
+
+    return rowsOfDaysLeft.map(d => <tr onClick={e => { this.onDayClick(e); }}>{d}</tr>);
   }
 
   rightMonthFormatter() {

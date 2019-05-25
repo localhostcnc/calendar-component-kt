@@ -16,7 +16,7 @@ class App extends React.Component {
     axios.get('/calendar/1')
       .then(function (response) {
         cb(null, response);        
-        console.log('Axios GET request from client Successful', response.data);
+        // console.log('Axios GET request from client Successful', response.data);
       })
       .catch(function (error) {
         cb(error);
@@ -24,20 +24,6 @@ class App extends React.Component {
       });
   }
 
-  componentDidMount() {
-    this.getCalendarData((err, responseData) => {
-      if (err) {
-        console.log('Response Error: ', err);
-      } else {
-        var listingData = responseData.data.listing;
-        var bookingData = responseData.data.bookings;
-        this.setState({
-          listing: listingData,
-          bookings: bookingData
-        });
-      }
-    });
-  }
 
   render () {
     return (
@@ -45,7 +31,7 @@ class App extends React.Component {
         <h1>
           Rendering App Component!
         </h1>
-        <Calendar />
+        <Calendar getCalendarData={this.getCalendarData.bind(this)}/>
         {/* <section>
           <div>
             <h2>
