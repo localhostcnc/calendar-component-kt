@@ -28,9 +28,6 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>
-          Rendering App Component!
-        </h1>
         <Calendar getCalendarData={this.getCalendarData.bind(this)}/>
         {/* <section>
           <div>
