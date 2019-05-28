@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const config = require('./config.js');
 
 
-const sequelize = new Sequelize('calendarcnc', 'root', 'password', {
+const sequelize = new Sequelize('calendarcnc', config.username, config.password, {
   host: config.host,
   dialect: 'mysql',
   username: config.username
