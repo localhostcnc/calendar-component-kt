@@ -225,10 +225,14 @@ class Calendar extends React.Component {
   render() {
     return (
       <div>
+        <AvailabilityStyle>
+        Availability
+        </AvailabilityStyle>
         <LeftArrow onClick={() => { this.previousMonth(); }}>
           <FontAwesomeIcon icon="arrow-left" />
         </LeftArrow>
         <Wrapper>
+
           <CalendarTitle>
             {this.state.leftMonth.format('MMMM YYYY')}
           </CalendarTitle>
@@ -254,11 +258,19 @@ class Calendar extends React.Component {
   }
 }
 
+// text-align: center;
+const AvailabilityStyle = styled.div`
+  font-size: 20px;
+  padding-bottom: 50px;
+  font-weight: bold;
+  color: #484848;
+`;
 const Wrapper = styled.section`
   font-style: bold;
   font-family: 'Montserrat', sans-serif;
   width: 22%;
   float: left;
+  color: #D0D0D0;
 `;
 
 const Wrapper2 = styled.section`
