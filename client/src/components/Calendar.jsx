@@ -228,37 +228,43 @@ class Calendar extends React.Component {
         <AvailabilityStyle>
         Availability
         </AvailabilityStyle>
-        <LeftArrow onClick={() => { this.previousMonth(); }}>
-          <FontAwesomeIcon icon="arrow-left" />
-        </LeftArrow>
-        <Wrapper>
-
-          <CalendarTitle>
-            {this.state.leftMonth.format('MMMM YYYY')}
-          </CalendarTitle>
-          {this.weekDayFormatter()}
-          <CalendarBody>
-            {this.leftMonthFormatter()}
-          </CalendarBody>
-        </Wrapper>
-        <Wrapper2>
-          <CalendarTitle>
-            {this.state.rightMonth.format('MMMM YYYY')}
-          </CalendarTitle>
-          {this.weekDayFormatter()}
-          <CalendarBody>
-            {this.rightMonthFormatter()}
-          </CalendarBody>
-        </Wrapper2>
-        <RightArrow onClick={() => { this.nextMonth(); }}>
-          <FontAwesomeIcon icon="arrow-right"/>
-        </RightArrow>
+        <CalendarWrap>
+          <LeftArrow onClick={() => { this.previousMonth(); }}>
+            <FontAwesomeIcon icon="arrow-left" />
+          </LeftArrow>
+          <Wrapper>
+            <CalendarTitle>
+              {this.state.leftMonth.format('MMMM YYYY')}
+            </CalendarTitle>
+          
+            {this.weekDayFormatter()}
+            <CalendarBody>
+              {this.leftMonthFormatter()}
+            </CalendarBody>
+          </Wrapper>
+          <Wrapper2>
+            <CalendarTitle>
+              {this.state.rightMonth.format('MMMM YYYY')}
+            </CalendarTitle>
+            {this.weekDayFormatter()}
+            <CalendarBody>
+              {this.rightMonthFormatter()}
+            </CalendarBody>
+          </Wrapper2>
+          <RightArrow onClick={() => { this.nextMonth(); }}>
+            <FontAwesomeIcon icon="arrow-right"/>
+          </RightArrow>
+        </CalendarWrap>
       </div>
     );
   }
 }
 
 // text-align: center;
+const CalendarWrap = styled.div`
+ width: 648px 367px;
+`;
+
 const AvailabilityStyle = styled.div`
   font-size: 20px;
   padding-bottom: 50px;
@@ -283,22 +289,26 @@ const Wrapper2 = styled.section`
 const LeftArrow = styled.button`
   border: solid;
   float: left;
-  
-  padding: 5px 7px 5px 7px;
+  position: absolute;
+  margin-left: 0px;
+  padding: 8px 14px
   border-width: thin;
   border-radius: 2px;
   color: #D0D0D0;
+  cursor: pointer;
 `;
 
 const RightArrow = styled.button`
   border: solid;
   position: absolute;
   float: right;
-  
-  padding: 5px 7px 5px 7px;
+  margin-right: 48px;
+  margin-left: -50px;
+  padding: 8px 14px
   border-width: thin;
   border-radius: 2px;
   color: #D0D0D0;
+  cursor: pointer;
 `;
 
 const Weekday = styled.section`

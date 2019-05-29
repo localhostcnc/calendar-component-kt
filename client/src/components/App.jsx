@@ -1,7 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-// import moment from 'moment';
+import styled from 'styled-components';
 import Calendar from './Calendar.jsx';
+
+const CalendarWrap = styled.div`
+  @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+  font-family: Montserrat, sans-serif;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -28,17 +33,9 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <Calendar getCalendarData={this.getCalendarData.bind(this)}/>
-        {/* <section>
-          <div>
-            <h2>
-            Availability
-            </h2> 
-          </div>
-          <div style="width: 632px;">
-          </div>
-          <div></div>
-        </section> */}
+        <CalendarWrap>
+          <Calendar getCalendarData={this.getCalendarData.bind(this)}/>
+        </CalendarWrap>
       </div> 
     );
   }
