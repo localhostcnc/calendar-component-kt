@@ -8,8 +8,8 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "build": "webpack --mode production --watch",
-    "start": "nodemon ./server/server.js",
+    "build": "webpack --mode development",
+    "start": "node ./server/server.js",
     "seed": "node seeding.js",
     "test": "jest"
   },
@@ -19,6 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "lodash": "^4.17.11",

@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { getListingBookings } = require('../db/helpers.js');
-
+const cors = require('cors');
 const app = express();
-const port = 3333;
+const port = process.env.PORT || 3333;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 

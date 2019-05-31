@@ -8,7 +8,7 @@ const CalendarWrap = styled.div`
   font-family: Montserrat, sans-serif;
 `;
 
-class App extends React.Component {
+class CalendarApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   getCalendarData (cb) {
-    axios.get('/calendar/1')
+    axios.get('http://localhost:3333/calendar/1')
       .then(function (response) {
         cb(null, response);        
         // console.log('Axios GET request from client Successful', response.data);
@@ -41,4 +41,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default CalendarApp;
